@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMG 3Q - Cổ Máy Thời Gian</title>
+  <style>
+    :root {
+      --bg: #091326;
+      --panel: #12213a;
+      --gold: #f4c56b;
+      --gold2: #ffe6a5;
+      --text: #f5f0e5;
+      --muted: #aebbd0;
+      --line: #405477;
+      --green: #71d6ad;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 50% -20%, #30466b, #101d34 45%, #080f1d);
+      color: var(--text);
+      font: 15px/1.5 system-ui, sans-serif;
+      min-height: 100vh
+    }
+
+    header {
+      padding: 26px 18px 20px;
+      text-align: center;
+      border-bottom: 1px solid #806b45;
+      background: linear-gradient(180deg, #172b4cdd, #0b1729aa)
+    }
+
+    .kicker {
+      color: var(--gold);
+      letter-spacing: 3px;
+      font-size: 11px;
+      font-weight: 800
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: clamp(25px, 5vw, 40px);
+      font-weight: 900;
+      color: var(--gold2);
+      margin: 4px 0
+    }
+
+    .sub,
+    .desc,
+    .hint {
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 22px auto;
+      padding: 0 16px 50px
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px
+    }
+
+    .card,
+    .section {
+      background: linear-gradient(145deg, #192c49, #101d32);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      box-shadow: 0 12px 30px #0003
+    }
+
+    .card {
+      padding: 18px
+    }
+
+    .total {
+      border-color: #a78042;
+      background: linear-gradient(135deg, #44351f, #1b2b43)
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px
+    }
+
+    .big {
+      font-size: clamp(30px, 5vw, 42px);
+      font-weight: 900;
+      color: var(--gold2);
+      margin-top: 5px
+    }
+
+    .metric {
+      font-size: 25px;
+      font-weight: 800;
+      margin-top: 8px
+    }
+
+    .section {
+      padding: 18px;
+      margin: 14px 0
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px
+    }
+
+    .section h2 {
+      font-size: 18px;
+      margin: 0;
+      color: var(--gold2)
+    }
+
+    .pill {
+      font-size: 11px;
+      color: #17243a;
+      background: var(--gold);
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 20px
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .field label {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    input,
+    select {
+      width: 100%;
+      background: #0b1729;
+      color: var(--text);
+      border: 1px solid #526887;
+      border-radius: 9px;
+      padding: 10px 11px;
+      font: inherit
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--gold)
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 600;
+      background: #0d1a2d
+    }
+
+    th,
+    td {
+      padding: 9px 8px;
+      border-bottom: 1px solid #344966
+    }
+
+    td:last-child {
+      text-align: right
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #344966;
+      border-radius: 10px
+    }
+
+    .earned {
+      font-weight: 800;
+      color: var(--green);
+      white-space: nowrap
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid #344966
+    }
+
+    .result-row span {
+      color: var(--muted)
+    }
+
+    .result-row strong {
+      color: var(--green)
+    }
+
+    .btn {
+      border: 1px solid #78613b;
+      border-radius: 9px;
+      padding: 9px 13px;
+      background: #342a1c;
+      color: var(--gold2);
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn.secondary {
+      background: #172943;
+      border-color: #526887;
+      color: var(--text)
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px
+    }
+
+    .hint {
+      margin-top: 10px
+    }
+
+    .footer {
+      text-align: center;
+      color: #8090a8;
+      font-size: 11px;
+      margin-top: 25px
+    }
+
+    @media(max-width:760px) {
+      .summary {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .total {
+        grid-column: 1/-1
+      }
+
+      .grid2 {
+        grid-template-columns: 1fr
+      }
+
+      .section {
+        padding: 14px
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black
+      }
+
+      .section,
+      .card {
+        background: white;
+        color: black;
+        box-shadow: none;
+        border: 1px solid #aaa
+      }
+
+      .section h2,
+      .big,
+      .metric,
+      .earned,
+      .result-row strong {
+        color: #222
+      }
+
+      .desc,
+      .hint,
+      .label,
+      .field label,
+      .result-row span {
+        color: #555
+      }
+
+      .actions {
+        display: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="kicker">OMG 3Q · EVENT CALCULATOR</div>
+    <div class="logo">CỔ MÁY THỜI GIAN</div>
+    <div class="sub">Công cụ tính Xu sự kiện OMG 3Q</div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="summary">
+      <div class="card total">
+        <div class="label">Tổng Xu dự kiến</div>
+        <div class="big" id="grandTotal">0 Xu</div>
+        <div class="desc">Tự động tính theo thông tin anh nhập</div>
+      </div>
+      <div class="card">
+        <div class="label">Nguồn có thưởng</div>
+        <div class="metric" id="sourceCount">0 / 6</div>
+      </div>
+      <div class="card">
+        <div class="label">Mốc / ngày có thưởng</div>
+        <div class="metric" id="selectedCount">0</div>
+      </div>
+    </div>
+
+    <!-- 01 LỰC CHIẾN -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>01 · Quà lực chiến</h2>
+          <div class="desc">Nhập lực chiến hiện tại, hệ thống tự cộng tất cả mốc đã đạt.</div>
+        </div>
+        <span class="pill">TỰ ĐỘNG CỘNG DỒN</span>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Lực chiến hiện tại (đơn vị tỷ)</label>
+          <input type="number" id="powerInput" min="0" step="0.01" placeholder="Ví dụ: 1.5">
+        </div>
+        <div class="field">
+          <label>Tổng Xu lực chiến</label>
+          <div class="metric earned" id="powerTotal">0 Xu</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mốc lực chiến</th>
+              <th>Xu</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody id="powerRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 02 PHÓ BẢN -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>02 · Quà Phó Bản</h2>
+          <div class="desc">Nhập chương cao nhất đã vượt qua.</div>
+        </div>
+        <span class="pill">TỰ ĐỘNG CỘNG DỒN</span>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Chương cao nhất</label>
+          <input type="number" id="dungeonInput" min="0" step="1" placeholder="Ví dụ: 75">
+        </div>
+        <div class="field">
+          <label>Tổng Xu phó bản</label>
+          <div class="metric earned" id="dungeonTotal">0 Xu</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mốc chương</th>
+              <th>Xu</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody id="dungeonRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 03 THÁP -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>03 · Quà Tháp Ma Hồn</h2>
+          <div class="desc">Nhập tầng cao nhất đã vượt qua.</div>
+        </div>
+        <span class="pill">TỰ ĐỘNG CỘNG DỒN</span>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Tầng cao nhất</label>
+          <input type="number" id="towerInput" min="0" step="1" placeholder="Ví dụ: 180">
+        </div>
+        <div class="field">
+          <label>Tổng Xu Tháp Ma Hồn</label>
+          <div class="metric earned" id="towerTotal">0 Xu</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mốc tầng</th>
+              <th>Xu</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody id="towerRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 04 TOP THÁP -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>04 · Top Tháp Ma Hồn</h2>
+          <div class="desc">15 ngày · Mỗi ngày chọn bảng đấu và thứ hạng riêng.</div>
+        </div>
+        <span class="pill">15 NGÀY</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Bảng đấu</th>
+              <th>Thứ hạng</th>
+              <th>Xu</th>
+            </tr>
+          </thead>
+          <tbody id="towerRankDays"></tbody>
+        </table>
+      </div>
+      <div class="result-row" style="margin-top:10px">
+        <span>Tổng Xu Top Tháp (15 ngày)</span>
+        <strong id="towerRankTotal">0 Xu</strong>
+      </div>
+    </section>
+
+    <!-- 05 TOP LÔI ĐÀI -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>05 · Top Lôi Đài Thủ Vệ</h2>
+          <div class="desc">15 ngày · Mỗi ngày chọn bảng Long / Nhẹ / Nặng và thứ hạng.</div>
+        </div>
+        <span class="pill">15 NGÀY</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Bảng đấu</th>
+              <th>Thứ hạng</th>
+              <th>Quà tham gia</th>
+              <th>Xu Top</th>
+            </tr>
+          </thead>
+          <tbody id="arenaRankDays"></tbody>
+        </table>
+      </div>
+      <div class="result-row" style="margin-top:10px">
+        <span>Tổng Xu Lôi Đài (quà tham gia + thứ hạng, 15 ngày)</span>
+        <strong id="arenaRankTotal">0 Xu</strong>
+      </div>
+    </section>
+
+    <!-- 06 DI LĂNG -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>06 · Di Lăng Chiến</h2>
+          <div class="desc">Khoản thưởng nhận một lần.</div>
+        </div>
+        <span class="pill">NHẬN 1 LẦN</span>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Số Xu nhận được</label>
+          <input type="number" id="dilingInput" min="0" step="1" value="0">
+        </div>
+        <div class="field">
+          <label>Trạng thái</label>
+          <select id="dilingClaimed">
+            <option value="yes">Có nhận thưởng</option>
+            <option value="no" selected>Không tính khoản này</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- TỔNG KẾT -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>CHI TIẾT TỔNG KẾT</h2>
+          <div class="desc">Tổng Xu từ tất cả nguồn.</div>
+        </div>
+      </div>
+      <div id="breakdown"></div>
+      <div class="actions">
+        <button class="btn" onclick="window.print()">In / Lưu PDF</button>
+        <button class="btn secondary" onclick="resetAll()">Đặt lại dữ liệu</button>
+      </div>
+    </section>
+
+    <div class="footer">OMG 3Q · CỔ MÁY THỜI GIAN</div>
+  </main>
+
+  <script>
+    const defaults = {
+      power: [
+        { name: "0,1 tỷ", threshold: 0.1, xu: 200 },
+        { name: "0,2 tỷ", threshold: 0.2, xu: 200 },
+        { name: "0,4 tỷ", threshold: 0.4, xu: 200 },
+        { name: "0,6 tỷ", threshold: 0.6, xu: 200 },
+        { name: "0,8 tỷ", threshold: 0.8, xu: 200 },
+        { name: "1 tỷ", threshold: 1, xu: 400 },
+        { name: "1,3 tỷ", threshold: 1.3, xu: 400 },
+        { name: "1,6 tỷ", threshold: 1.6, xu: 600 },
+        { name: "2 tỷ", threshold: 2, xu: 600 },
+        { name: "2,5 tỷ", threshold: 2.5, xu: 800 },
+        { name: "3 tỷ", threshold: 3, xu: 800 },
+        { name: "3,5 tỷ", threshold: 3.5, xu: 1000 },
+        { name: "4 tỷ", threshold: 4, xu: 1000 },
+        { name: "4,5 tỷ", threshold: 4.5, xu: 1200 },
+        { name: "5 tỷ", threshold: 5, xu: 1500 },
+        { name: "6 tỷ", threshold: 6, xu: 1500 },
+        { name: "7 tỷ", threshold: 7, xu: 1500 },
+        { name: "8 tỷ", threshold: 8, xu: 1500 },
+        { name: "9 tỷ", threshold: 9, xu: 1500 },
+        { name: "10 tỷ", threshold: 10, xu: 1500 }
+      ],
+
+      dungeon: [
+        { name: "Chương 5", threshold: 5, xu: 100 },
+        { name: "Chương 10", threshold: 10, xu: 100 },
+        { name: "Chương 15", threshold: 15, xu: 100 },
+        { name: "Chương 20", threshold: 20, xu: 100 },
+        { name: "Chương 25", threshold: 25, xu: 100 },
+        { name: "Chương 30", threshold: 30, xu: 200 },
+        { name: "Chương 35", threshold: 35, xu: 200 },
+        { name: "Chương 40", threshold: 40, xu: 200 },
+        { name: "Chương 45", threshold: 45, xu: 200 },
+        { name: "Chương 50", threshold: 50, xu: 200 },
+        { name: "Chương 55", threshold: 55, xu: 400 },
+        { name: "Chương 60", threshold: 60, xu: 400 },
+        { name: "Chương 65", threshold: 65, xu: 600 },
+        { name: "Chương 70", threshold: 70, xu: 600 },
+        { name: "Chương 75", threshold: 75, xu: 800 },
+        { name: "Chương 80", threshold: 80, xu: 800 },
+        { name: "Chương 85", threshold: 85, xu: 1000 },
+        { name: "Chương 90", threshold: 90, xu: 1200 },
+        { name: "Chương 95", threshold: 95, xu: 1500 },
+        { name: "Chương 100", threshold: 100, xu: 1500 },
+        { name: "Chương 110", threshold: 110, xu: 1500 },
+        { name: "Chương 120", threshold: 120, xu: 1500 },
+        { name: "Chương 130", threshold: 130, xu: 1500 },
+        { name: "Chương 140", threshold: 140, xu: 1500 },
+        { name: "Chương 150", threshold: 150, xu: 1500 }
+      ],
+
+      tower: [
+        { name: "Tầng 20", threshold: 20, xu: 100 },
+        { name: "Tầng 40", threshold: 40, xu: 100 },
+        { name: "Tầng 60", threshold: 60, xu: 100 },
+        { name: "Tầng 80", threshold: 80, xu: 100 },
+        { name: "Tầng 100", threshold: 100, xu: 100 },
+        { name: "Tầng 110", threshold: 110, xu: 200 },
+        { name: "Tầng 120", threshold: 120, xu: 200 },
+        { name: "Tầng 130", threshold: 130, xu: 200 },
+        { name: "Tầng 140", threshold: 140, xu: 200 },
+        { name: "Tầng 150", threshold: 150, xu: 200 },
+        { name: "Tầng 160", threshold: 160, xu: 400 },
+        { name: "Tầng 170", threshold: 170, xu: 400 },
+        { name: "Tầng 180", threshold: 180, xu: 600 },
+        { name: "Tầng 190", threshold: 190, xu: 600 },
+        { name: "Tầng 200", threshold: 200, xu: 800 },
+        { name: "Tầng 210", threshold: 210, xu: 800 },
+        { name: "Tầng 220", threshold: 220, xu: 1000 },
+        { name: "Tầng 230", threshold: 230, xu: 1000 },
+        { name: "Tầng 240", threshold: 240, xu: 1200 },
+        { name: "Tầng 250", threshold: 250, xu: 1500 },
+        { name: "Tầng 260", threshold: 260, xu: 1500 },
+        { name: "Tầng 270", threshold: 270, xu: 1500 },
+        { name: "Tầng 280", threshold: 280, xu: 1500 },
+        { name: "Tầng 290", threshold: 290, xu: 1500 },
+        { name: "Tầng 300", threshold: 300, xu: 1500 }
+      ],
+
+      towerRank: {
+        "Sơ": [0, 500, 300, 200, 150, 100],
+        "Trung": [0, 1000, 500, 300, 200, 150],
+        "Cao": [0, 1500, 1000, 500, 300, 200]
+      },
+
+      arenaParticipation: 300,
+
+      arenaRank: {
+        "Long": [0, 800, 500, 300, 200, 100],
+        "Nhẹ": [0, 1500, 800, 500, 300, 200],
+        "Nặng": [0, 2000, 1500, 800, 500, 300]
+      },
+
+      diling: 0
+    };
+
+    const STORAGE_KEY = "omg3q_xu_calculator_v3";
+
+    function loadData() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return saved || {
+          power: 0,
+          dungeon: 0,
+          tower: 0,
+          towerRankDays: Array.from({ length: 15 }, () => ({ group: "Cao", place: 0 })),
+          arenaRankDays: Array.from({ length: 15 }, () => ({ group: "Long", place: 0 })),
+          diling: 0,
+          dilingClaimed: "no"
+        };
+      } catch (e) {
+        return {
+          power: 0, dungeon: 0, tower: 0,
+          towerRankDays: Array.from({ length: 15 }, () => ({ group: "Cao", place: 0 })),
+          arenaRankDays: Array.from({ length: 15 }, () => ({ group: "Long", place: 0 })),
+          diling: 0, dilingClaimed: "no"
+        };
+      }
+    }
+
+    let data = loadData();
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    const fmt = n => Number(n || 0).toLocaleString("vi-VN");
+
+    function safeNumber(id) {
+      return Math.max(0, Number(document.getElementById(id).value) || 0);
+    }
+
+    function calculateMilestones(key, value) {
+      return defaults[key]
+        .filter(item => value >= item.threshold)
+        .reduce((sum, item) => sum + item.xu, 0);
+    }
+
+    function renderMilestones(key, value) {
+      const rows = document.getElementById(key + "Rows");
+
+      rows.innerHTML = defaults[key].map(item => {
+        const achieved = value >= item.threshold;
+
+        return `
+      <tr>
+        <td>${item.name}</td>
+        <td>${fmt(item.xu)} Xu</td>
+        <td>
+          ${achieved
+            ? '<span class="earned">Đã đạt</span>'
+            : '<span class="desc">Chưa đạt</span>'}
+        </td>
+      </tr>
+    `;
+      }).join("");
+    }
+
+    const rankPlaces = [
+      "Không có thưởng",
+      "Top 1",
+      "Top 2",
+      "Top 3",
+      "Top 4–10",
+      "Top 11-20"
+    ];
+
+    function renderRankDays(type) {
+      const isTower = type === "towerRank";
+      const body = document.getElementById(
+        isTower ? "towerRankDays" : "arenaRankDays"
+      );
+
+      const key = isTower ? "towerRankDays" : "arenaRankDays";
+      const groups = isTower
+        ? ["Sơ", "Trung", "Cao"]
+        : ["Long", "Nhẹ", "Nặng"];
+
+      body.innerHTML = data[key].map((day, index) => {
+        const group = groups.includes(day.group) ? day.group : groups[0];
+        const place = Math.max(0, Math.min(5, Number(day.place) || 0));
+
+        const groupOptions = groups.map(g => `
+      <option value="${g}" ${g === group ? "selected" : ""}>${g}</option>
+    `).join("");
+
+        const placeOptions = rankPlaces.map((p, i) => `
+      <option value="${i}" ${i === place ? "selected" : ""}>${p}</option>
+    `).join("");
+
+        const xu = Number((defaults[type][group] || [])[place] || 0);
+        const participation = isTower ? null : defaults.arenaParticipation;
+
+        return `
+      <tr>
+        <td><b>Ngày ${index + 1}</b></td>
+        <td>
+          <select onchange="changeRank('${key}',${index},'group',this.value)">
+            ${groupOptions}
+          </select>
+        </td>
+        <td>
+          <select onchange="changeRank('${key}',${index},'place',this.value)">
+            ${placeOptions}
+          </select>
+        </td>
+        ${isTower ? '' : `<td class="earned">${fmt(participation)} Xu</td>`}
+        <td class="earned">${fmt(xu)} Xu</td>
+      </tr>
+    `;
+      }).join("");
+    }
+
+    function changeRank(key, index, field, value) {
+      data[key][index][field] =
+        field === "place" ? Number(value) : value;
+
+      saveData();
+      renderRankDays(key === "towerRankDays" ? "towerRank" : "arenaRank");
+      calculate();
+    }
+
+    function calculateRank(type, days) {
+      return days.reduce((sum, day) => {
+        return sum + Number(
+          (defaults[type][day.group] || [])[Number(day.place) || 0] || 0
+        );
+      }, 0);
+    }
+
+    function calculate() {
+      const power = safeNumber("powerInput");
+      const dungeon = safeNumber("dungeonInput");
+      const tower = safeNumber("towerInput");
+
+      const p = calculateMilestones("power", power);
+      const d = calculateMilestones("dungeon", dungeon);
+      const t = calculateMilestones("tower", tower);
+
+      renderMilestones("power", power);
+      renderMilestones("dungeon", dungeon);
+      renderMilestones("tower", tower);
+
+      const tr = calculateRank("towerRank", data.towerRankDays);
+      const arenaRankXu = calculateRank("arenaRank", data.arenaRankDays);
+      const arenaParticipationXu = defaults.arenaParticipation * 15;
+      const ar = arenaRankXu + arenaParticipationXu;
+
+      const diling = safeNumber("dilingInput");
+      const claimed = document.getElementById("dilingClaimed").value;
+      const dl = claimed === "yes" ? diling : 0;
+
+      const total = p + d + t + tr + ar + dl;
+
+      document.getElementById("powerTotal").textContent = fmt(p) + " Xu";
+      document.getElementById("dungeonTotal").textContent = fmt(d) + " Xu";
+      document.getElementById("towerTotal").textContent = fmt(t) + " Xu";
+
+      document.getElementById("towerRankTotal").textContent = fmt(tr) + " Xu";
+      document.getElementById("arenaRankTotal").textContent = fmt(ar) + " Xu";
+
+      document.getElementById("grandTotal").textContent = fmt(total) + " Xu";
+
+      const values = [p, d, t, tr, ar, dl];
+      const names = [
+        "Lực chiến",
+        "Phó bản",
+        "Tháp Ma Hồn",
+        "Top Tháp Ma Hồn (15 ngày)",
+        "Lôi Đài (quà tham gia + thứ hạng, 15 ngày)",
+        "Di Lăng Chiến"
+      ];
+
+      document.getElementById("sourceCount").textContent =
+        values.filter(x => x > 0).length + " / 6";
+
+      const selected =
+        defaults.power.filter(x => power >= x.threshold).length +
+        defaults.dungeon.filter(x => dungeon >= x.threshold).length +
+        defaults.tower.filter(x => tower >= x.threshold).length +
+        data.towerRankDays.filter(x => Number(x.place) > 0).length +
+        data.arenaRankDays.filter(x => Number(x.place) > 0).length +
+        15 +
+        (dl > 0 ? 1 : 0);
+
+      document.getElementById("selectedCount").textContent = selected;
+
+      document.getElementById("breakdown").innerHTML =
+        names.map((name, i) => `
+      <div class="result-row">
+        <span>${name}</span>
+        <strong>${fmt(values[i])} Xu</strong>
+      </div>
+    `).join("") +
+        `<div class="result-row" style="font-size:18px;padding-top:14px">
+      <b>TỔNG CỘNG</b>
+      <strong style="color:var(--gold2)">${fmt(total)} Xu</strong>
+    </div>`;
+
+      data.power = power;
+      data.dungeon = dungeon;
+      data.tower = tower;
+      data.diling = diling;
+      data.dilingClaimed = claimed;
+
+      saveData();
+    }
+
+    function init() {
+      document.getElementById("powerInput").value = data.power || "";
+      document.getElementById("dungeonInput").value = data.dungeon || "";
+      document.getElementById("towerInput").value = data.tower || "";
+      document.getElementById("dilingInput").value = data.diling || 0;
+      document.getElementById("dilingClaimed").value = data.dilingClaimed || "no";
+
+      ["powerInput", "dungeonInput", "towerInput", "dilingInput"].forEach(id => {
+        document.getElementById(id).addEventListener("input", calculate);
+      });
+
+      document.getElementById("dilingClaimed").addEventListener("change", calculate);
+
+      if (!Array.isArray(data.towerRankDays)) data.towerRankDays = [];
+      if (!Array.isArray(data.arenaRankDays)) data.arenaRankDays = [];
+
+      while (data.towerRankDays.length < 15)
+        data.towerRankDays.push({ group: "Cao", place: 0 });
+
+      while (data.arenaRankDays.length < 15)
+        data.arenaRankDays.push({ group: "Long", place: 0 });
+
+      data.towerRankDays = data.towerRankDays.slice(0, 15);
+      data.arenaRankDays = data.arenaRankDays.slice(0, 15);
+
+      renderRankDays("towerRank");
+      renderRankDays("arenaRank");
+      calculate();
+    }
+
+    function resetAll() {
+      if (confirm("Anh có chắc muốn xóa toàn bộ dữ liệu đã nhập?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
